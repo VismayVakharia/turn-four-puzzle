@@ -3,19 +3,20 @@ import { Game } from "./game.js";
 window.sketch = new p5(p5 => { });
 
 sketch.setup = function () {
-    sketch.createCanvas(400, 400);
+    let canvas = sketch.createCanvas(400, 400);
+    canvas.parent("canvas");
     sketch.frameRate(10);
     sketch.textSize(50);
     sketch.textAlign(sketch.CENTER, sketch.CENTER);
     sketch.game = new Game(100);
-    sketch.play = false;
+    sketch.play = 0;
     sketch.angle = 0;
     sketch.step = sketch.PI / (1 * sketch._targetFrameRate);
 }
 
 sketch.draw = function () {
     sketch.clear();
-    sketch.background(200);
+    sketch.background(255);
     sketch.translate(sketch.width / 2, sketch.height / 2);
 
     if (sketch.play !== 0) {
@@ -33,19 +34,31 @@ sketch.draw = function () {
 }
 
 sketch.keyReleased = function () {
+    sketch.keybindings(sketch.key);
+}
+
+sketch.keybindings = function (key) {
     if (sketch.play !== 0)
         return false;
-    if (sketch.key == "ArrowUp" || sketch.key == "ArrowRight")
-        sketch.play = 1;
-    else if (sketch.key == "ArrowDown" || sketch.key == "ArrowLeft")
-        sketch.play = -1;
-    else if (sketch.key == "w")
-        sketch.game.update_selection("u");
-    else if (sketch.key == "a")
-        sketch.game.update_selection("l");
-    else if (sketch.key == "s")
-        sketch.game.update_selection("d");
-    else if (sketch.key == "d")
-        sketch.game.update_selection("r");
+    switch (key.toUpperCase()) {
+        case "ARROWRIGHT":
+            sketch.play = 1;
+            break;
+        case "ARROWLEFT":
+            sketch.play = -1;
+            break;
+        case "W":
+            sketch.game.update_selection("u");
+            break;
+        case "A":
+            sketch.game.update_selection("l");
+            break;
+        case "S":
+            sketch.game.update_selection("d");
+            break;
+        case "D":
+            sketch.game.update_selection("r");
+    }
     return false;
+
 }

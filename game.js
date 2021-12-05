@@ -1,5 +1,4 @@
 import { Piece } from "./piece.js";
-import { arraysEqual } from "./utils.js";
 
 export class Game {
     constructor(size) {

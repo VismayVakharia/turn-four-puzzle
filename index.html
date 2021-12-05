@@ -6,12 +6,49 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Turn Four Puzzle</title>
+    <link rel="stylesheet" href="https://unpkg.com/keyboard-css@1.2.4/dist/css/main.min.css" />
     <script src="./libraries/p5.min.js"></script>
     <!-- <script src="p5.dom.min.js"></script> -->
+    <script type="module" src="./ui.js"></script>
     <script type="module" src="./main.js"></script>
+    <style>
+        h1,
+        h3 {
+            font-family: 'Ubuntu';
+        }
+
+        button.kbc-button {
+            font-family: 'Ubuntu';
+        }
+
+        .selection {
+            float: left;
+            width: 45%;
+        }
+
+        .rotation {
+            float: right;
+            width: 45%;
+        }
+    </style>
 </head>
 
-<body>
+<body style="text-align: center;">
+    <h1>Turn Four</h1>
+    <div id="canvas"></div>
+    <div class="selection">
+        <h3>Selection</h3>
+        <button class="kbc-button no-container" data="W">W</button>
+        <br>
+        <button class="kbc-button no-container" data="A">A</button>
+        <button class="kbc-button no-container" data="S">S</button>
+        <button class="kbc-button no-container" data="D">D</button>
+    </div>
+    <div class="rotation">
+        <h3>Rotation</h3>
+        <button class="kbc-button no-container" data="ARROWLEFT" style="text-align: right;">&#x2190;</button>
+        <button class="kbc-button no-container" data="ARROWRIGHT" style="text-align: right;">&#x2192;</button>
+    </div>
 </body>
 
 </html>
