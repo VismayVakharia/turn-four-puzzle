@@ -48,9 +48,12 @@ sketch.keyReleased = function () {
 
 sketch.mouseReleased = function (e) {
     if (sketch.play !== 0) return false;
-    if (!sketch.selectionKeys)
+    if (!sketch.selectionKeys && [0, 2].includes(e.button))
         sketch.play = e.button - 1;
+    return false;
 }
+
+sketch.touchEnded = () => {return false}
 
 sketch.keybindings = function (key) {
     if (sketch.play !== 0)

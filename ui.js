@@ -16,7 +16,12 @@ document.addEventListener('keyup', (ev) => {
     if (element) element.classList.remove('active');
 });
 
-document.addEventListener('click', (e) => {
+let buttonPress = (e) => {
     const value = e.target.getAttribute("data");
     if (value) sketch.keybindings(value);
+}
+
+document.querySelectorAll("button").forEach(b => {
+    b.addEventListener('click', buttonPress);
+    b.addEventListener('touchend', buttonPress)
 })
