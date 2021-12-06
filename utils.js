@@ -6,8 +6,8 @@ export function squircle(cx, cy, r, n, angle, num, wx, wy) {
 
     let points = [];
     for (let t = 0; t < 6.2832; t += 6.2832 / num) {          // 160 vertex points is too much
-        let x = Math.pow(Math.abs(Math.cos(t)), 1 / n) * r * wx * sign(Math.cos(t));
-        let y = Math.pow(Math.abs(Math.sin(t)), 1 / n) * r * wy * sign(Math.sin(t));
+        let x = Math.pow(Math.abs(Math.cos(t)), 1 / n) * r * wx * Math.sign(Math.cos(t));
+        let y = Math.pow(Math.abs(Math.sin(t)), 1 / n) * r * wy * Math.sign(Math.sin(t));
         let [nx, ny] = rotate(x, y, angle);
         points.push([nx + cx, ny + cy]);
     }
@@ -16,8 +16,7 @@ export function squircle(cx, cy, r, n, angle, num, wx, wy) {
 
 export function sign(input) {
     if (input < 0) return -1.0;
-    if (input > 0) return 1.0;
-    return 0.0;
+    return 1.0;
 }
 
 export function rotate(x, y, angle) {
