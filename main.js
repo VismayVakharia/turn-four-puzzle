@@ -1,5 +1,5 @@
-import { Game } from "./game.js";
-import { sign } from "./utils.js";
+import { Game } from "./js/game.js";
+import { sign } from "./js/utils.js";
 
 window.sketch = new p5(p5 => { });
 
