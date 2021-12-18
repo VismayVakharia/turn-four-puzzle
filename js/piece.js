@@ -16,6 +16,7 @@ const COLORS = {
 export class Piece {
     constructor(position, angle, name) {
         this.name = name;
+        this.color = utils.randomColor([255, 255, 255], 0.2);
         this.position = position;
         this.angle = angle;
         this.size = 35.0;
@@ -36,7 +37,7 @@ export class Piece {
         p5.translate(...this.position);
         p5.rotate(this.angle);
         p5.beginShape();
-        p5.fill(COLORS[this.name]);
+        p5.fill(this.color);
         // p5.noStroke();
         for (let p of this.points) {
             p5.vertex(...p);

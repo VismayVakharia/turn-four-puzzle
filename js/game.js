@@ -1,32 +1,40 @@
 import { Piece } from "./piece.js";
 
 export class Game {
-    constructor(size) {
+    constructor(rows, cols, size) {
+        this.rows = rows;
+        this.cols = cols;
         this.size = size;
         this.pieces = [];
         let count = 1;
-        for (let i of [-1, 0, 1]) {
-            for (let j of [-1, 0, 1]) {
-                this.pieces.push(new Piece([size * j, size * i], 0, count));
+        this.y_lim = (rows - 1) / 2;
+        this.x_lim = (cols - 1) / 2;
+        for (let j = -this.y_lim; j <= this.y_lim; j++) {
+            for (let i = -this.x_lim; i <= this.x_lim; i++) {
+                this.pieces.push(new Piece([size * i, size * j], 0, count));
                 count++;
             }
         }
-        this.selection = [-1, -1];
+        this.selection = [-(this.x_lim - 0.5), -(this.y_lim - 0.5)];
     }
 
     rotate(angle) {
         let [x, y] = this.selection;
-        for (let p of this.pieces.filter(p => ((p.position[0] * x >= -this.size / 2) && (p.position[1] * y >= -this.size / 2)))) {
-            p.rotate([x * this.size / 2, y * this.size / 2], angle);
+        let cx = x * this.size;
+        let cy = y * this.size;
+        for (let p of this.pieces.filter(p => (((p.position[0] - cx) ** 2 + (p.position[1] - cy) ** 2) <= this.size ** 2))) {
+            p.rotate([x * this.size, y * this.size], angle);
         }
     }
 
     update_selection(str) {
         let [x, y] = this.selection;
-        if (str == "r") x = 1;
-        if (str == "l") x = -1;
-        if (str == "u") y = -1;
-        if (str == "d") y = 1;
+        let x_lim = this.x_lim - 0.5;
+        let y_lim = this.y_lim - 0.5;
+        if (str == "r") x = x + 1 <= x_lim ? x + 1 : x;
+        if (str == "l") x = x - 1 >= -x_lim ? x - 1 : x;
+        if (str == "u") y = y - 1 >= -y_lim ? y - 1 : y;
+        if (str == "d") y = y + 1 <= y_lim ? y + 1 : y;
         this.selection = [x, y];
     }
 
@@ -41,13 +49,18 @@ export class Game {
         p5.push();
         p5.fill(100);
         p5.noStroke();
-        for (let p of [[-1.0, -1.0], [-1.0, 1.0], [1.0, 1.0], [1.0, -1.0]]) {
-            p5.circle(p[0] * this.size / 2, p[1] * this.size / 2, this.size * 2.3);
+
+        let y_lim = (this.rows - 2) / 2;
+        let x_lim = (this.cols - 2) / 2;
+        for (let j = -y_lim; j <= y_lim; j++) {
+            for (let i = -x_lim; i <= x_lim; i++) {
+                p5.circle(i * this.size, j * this.size, this.size * 2.3);
+            }
         }
         p5.stroke(200, 0, 0);
         p5.strokeWeight(5);
         p5.noFill();
-        p5.circle(this.selection[0] * this.size / 2, this.selection[1] * this.size / 2, this.size * 2.3);
+        p5.circle(this.selection[0] * this.size, this.selection[1] * this.size, this.size * 2.3);
         p5.pop();
     }
 }

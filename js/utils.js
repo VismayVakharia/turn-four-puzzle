@@ -14,11 +14,6 @@ export function squircle(cx, cy, r, n, angle, num, wx, wy) {
     return points;
 }
 
-export function sign(input) {
-    if (input < 0) return -1.0;
-    return 1.0;
-}
-
 export function rotate(x, y, angle) {
     let nx = x * Math.cos(angle) - y * Math.sin(angle);
     let ny = x * Math.sin(angle) + y * Math.cos(angle);
@@ -34,4 +29,20 @@ export function arraysEqual(a, b) {
         if (a[i] !== b[i]) return false;
     }
     return true;
+}
+
+/**
+ * 
+ * @param {Number[]} base base color
+ * @param {Number} w weight (0-1)
+ */
+export function randomColor(base, w) {
+    let r = parseInt(Math.random() * 256);
+    let g = parseInt(Math.random() * 256);
+    let b = parseInt(Math.random() * 256);
+
+    r = (1 - w) * r + w * base[0];
+    g = (1 - w) * g + w * base[1];
+    b = (1 - w) * b + w * base[2];
+    return [parseInt(r), parseInt(g), parseInt(b)];
 }

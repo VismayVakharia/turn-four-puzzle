@@ -1,15 +1,14 @@
 import { Game } from "./js/game.js";
-import { sign } from "./js/utils.js";
 
 window.sketch = new p5(p5 => { });
 
 sketch.setup = function () {
-    let canvas = sketch.createCanvas(sketch.windowWidth, sketch.windowHeight-55);
+    let canvas = sketch.createCanvas(sketch.windowWidth, sketch.windowHeight - 55);
     canvas.parent("canvas");
     sketch.frameRate(10);
     sketch.textSize(50);
     sketch.textAlign(sketch.CENTER, sketch.CENTER);
-    sketch.game = new Game(100);
+    sketch.game = new Game(3, 3, 100);
     sketch.selectionKeys = true;
     sketch.play = 0;
     sketch.angle = 0;
@@ -21,12 +20,12 @@ sketch.draw = function () {
     sketch.background(255);
 
     sketch.mousebindings(sketch.mouseX, sketch.mouseY);
-    document.querySelector(".p5Canvas").addEventListener("contextmenu", e=>e.preventDefault());
+    document.querySelector(".p5Canvas").addEventListener("contextmenu", e => e.preventDefault());
     document.querySelectorAll('button').forEach((b) => {
         if (!b.hasAttribute("style")) b.disabled = !sketch.selectionKeys
     });
 
-    sketch.translate(sketch.width / 2, sketch.game.size*2);
+    sketch.translate(sketch.width / 2, sketch.game.size * (sketch.game.rows / 2 + 0.5));
 
     if (sketch.play !== 0) {
         if (sketch.angle < sketch.PI / 2) {
@@ -43,7 +42,7 @@ sketch.draw = function () {
 }
 
 sketch.windowResized = function () {
-    sketch.resizeCanvas(sketch.windowWidth, sketch.windowHeight-55);
+    sketch.resizeCanvas(sketch.windowWidth, sketch.windowHeight - 55);
 }
 
 sketch.keyReleased = function () {
@@ -57,7 +56,7 @@ sketch.mouseReleased = function (e) {
     return false;
 }
 
-sketch.touchEnded = () => {return false}
+sketch.touchEnded = () => { return false }
 
 sketch.keybindings = function (key) {
     if (sketch.play !== 0)
@@ -80,19 +79,46 @@ sketch.keybindings = function (key) {
             break;
         case "D":
             sketch.game.update_selection("r");
+            break;
+        case "ROW-LESS":
+            if (sketch.game.rows - 1 > 2)
+                sketch.game = new Game(sketch.game.rows - 1, sketch.game.cols, sketch.game.size);
+            document.querySelector("span#rows").innerText = sketch.game.rows;
+            break;
+        case "ROW-PLUS":
+            if (sketch.game.rows + 1 < 6)
+                sketch.game = new Game(sketch.game.rows + 1, sketch.game.cols, sketch.game.size);
+            document.querySelector("span#rows").innerText = sketch.game.rows;
+            break;
+        case "COL-LESS":
+            if (sketch.game.cols - 1 > 2)
+                sketch.game = new Game(sketch.game.rows, sketch.game.cols - 1, sketch.game.size);
+            document.querySelector("span#cols").innerText = sketch.game.cols;
+            break;
+        case "COL-PLUS":
+            if (sketch.game.cols + 1 < 6)
+                sketch.game = new Game(sketch.game.rows, sketch.game.cols + 1, sketch.game.size);
+            document.querySelector("span#cols").innerText = sketch.game.cols;
+            break;
     }
     return false;
 
 }
 
 sketch.mousebindings = function (x, y) {
-    let nx = x - sketch.width / 2;
-    let ny = y - sketch.game.size * 2;
+    let nx, ny;
+    if (sketch.game.cols % 2 == 0)
+        nx = Math.floor((x - sketch.width / 2 - sketch.game.size / 2) / (sketch.game.size)) + 1.0;
+    else
+        nx = Math.floor((x - sketch.width / 2) / (sketch.game.size)) + 0.5;
+    if (sketch.game.rows % 2 == 0)
+        ny = Math.floor((y - sketch.game.size * (sketch.game.rows / 2 + 0.5) - sketch.game.size / 2) / (sketch.game.size)) + 1.0;
+    else
+        ny = Math.floor((y - sketch.game.size * (sketch.game.rows / 2 + 0.5)) / (sketch.game.size)) + 0.5;
     if (sketch.play === 0) {
-        let threshold = 100 / 2 + 100 * 2.3 / 2;
-        if (nx ** 2 + ny ** 2 < threshold ** 2) {
+        if (Math.abs(nx) <= sketch.game.x_lim && Math.abs(ny) <= this.game.y_lim) {
             sketch.selectionKeys = false;
-            sketch.game.selection = [nx, ny].map(v => (parseInt(sign(v))))
+            sketch.game.selection = [nx, ny];
         }
         else {
             sketch.selectionKeys = true;
