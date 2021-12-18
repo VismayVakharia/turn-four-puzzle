@@ -10,45 +10,90 @@
     <link rel="icon" type="image/x-icon" href="favicon.ico">
     <script src="./libraries/p5.min.js"></script>
     <!-- <script src="p5.dom.min.js"></script> -->
-    <script type="module" src="./ui.js"></script>
+    <script type="module" src="./js/ui.js"></script>
     <script type="module" src="./main.js"></script>
     <style>
-        h1,
-        h3 {
+        body {
             font-family: 'Ubuntu';
+        }
+
+        h2 {
+            border-bottom-width: 1px;
+            border-bottom-style: solid;
+            border-bottom-color: gray;
+            margin: 0%;
+        }
+
+        canvas {
+            position: absolute;
+            top: 55px;
+            left: 0;
         }
 
         button.kbc-button {
             font-family: 'Ubuntu';
         }
 
+        .controls {
+            position: fixed;
+            left: 0;
+            bottom: 0;
+            padding: 12px;
+            background-color: rgba(255, 255, 255, 0.8);
+            border-top: solid 1px #eee;
+            border-right: solid 1px #eee;
+            border-top-right-radius: 10px;
+        }
+
         .selection {
+            text-align: center;
             float: left;
-            width: 45%;
+            width: 55%;
+            height: 170px;
         }
 
         .rotation {
+            text-align: center;
             float: right;
             width: 45%;
+            height: 170px;
+        }
+
+        .rotation-buttons {
+            position: relative;
+            top: 34px;
         }
     </style>
 </head>
 
-<body style="text-align: center;">
-    <h1>Turn Four</h1>
-    <div id="canvas"></div>
-    <div class="selection">
-        <h3>Selection (Hover)</h3>
-        <button class="kbc-button no-container" data="W">W</button>
-        <br>
-        <button class="kbc-button no-container" data="A">A</button>
-        <button class="kbc-button no-container" data="S">S</button>
-        <button class="kbc-button no-container" data="D">D</button>
+<body>
+    <div class="header" style="width: 100%; height: 40px; border-bottom: solid 2px #eee;">
+        <h1 style="float: left; width: 50%; margin: 0; margin-left: 25%; text-align: center;">Turn Four</h1>
+        <a href="https://github.com/VismayVakharia/turn-four-puzzle" target="_blank">
+            <img class="github" style="float: right; width: 32px; height: 32px; margin-top: 4px; margin-right: 4px;"
+                src="./images/GitHub-Mark-120px-plus.png">
+        </a>
     </div>
-    <div class="rotation">
-        <h3>Rotation (Clicks)</h3>
-        <button class="kbc-button no-container" data="ARROWLEFT" style="text-align: right;">&#x2190;</button>
-        <button class="kbc-button no-container" data="ARROWRIGHT" style="text-align: right;">&#x2192;</button>
+    <div id="canvas"></div>
+    <div class="controls">
+        <h2 class="title">Controls</h2>
+        <div class="selection">
+            <h3>Selection (Hover)</h3>
+            <div class="selection-buttons">
+                <button class="kbc-button no-container" data="W">W</button>
+                <br>
+                <button class="kbc-button no-container" data="A">A</button>
+                <button class="kbc-button no-container" data="S">S</button>
+                <button class="kbc-button no-container" data="D">D</button>
+            </div>
+        </div>
+        <div class="rotation">
+            <h3>Rotation (Clicks)</h3>
+            <div class="rotation-buttons">
+                <button class="kbc-button no-container" data="ARROWLEFT" style="text-align: right;">&#x2190;</button>
+                <button class="kbc-button no-container" data="ARROWRIGHT" style="text-align: right;">&#x2192;</button>
+            </div>
+        </div>
     </div>
 </body>
 
